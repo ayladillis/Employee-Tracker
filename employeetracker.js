@@ -69,11 +69,7 @@ inquirer.prompt ([
         name: "manager",
         message: "Who is the employees manager?",
         choices: [
-            "None",
-            "Ayla Dillis",
-            "Sabrina Sulliman",
-            "Carolyn Hernandez",
-            "Alisa Nguyne-Le"
+            "None"
         ]
     }
-])  
+]);
