@@ -8,17 +8,19 @@ var connection = mysql.createConnection({
   port: 3306,
   user: "root",
   password: "password",
-  database: "greatbayDB"
+  database: "employeetrackerDB"
 });
 
 connection.connect(function(err) {
     if (err) throw err;
-    console.log("connected as id " + connection.threadId);
+    // console.log("connected as id " + connection.threadId);
     // connection.end();
+    runQuestions();
   });
   
-inquirer.prompt ([
-    {
+function runQuestions() {
+inquirer
+    .prompt ({
         type: "list",
         name: "first",
         message: "What would you like to do?",
@@ -31,45 +33,116 @@ inquirer.prompt ([
             "Update Employee Role",
             "Update Employee Manager"
         ]
-    },
-    {
-        type: "list",
-        name: "remove",
-        message: "Who would you like to remove?",
-        choices: [
-            " "
-        ]
-    },
-    {
-        type: "input",
-        name: "firstName",
-        message: "What is the employees first name?"
-    },
-    {
-        type: "input",
-        name: "lastName",
-        message: "What is the employees last name?"
-    },
-    {
-        type: "list",
-        name: "role",
-        message: "What is the employees role?",
-        choices: [
-            "Sales Lead",
-            "Salesperson",
-            "Lead Engineer",
-            "Software Engineer",
-            "Account Manager",
-            "Accountant",
-            "Legal Team Lead"
-        ]
-    },
-    {
-        type: "list",
-        name: "manager",
-        message: "Who is the employees manager?",
-        choices: [
-            "None"
-        ]
+    })
+        .then(function(answer) {
+            switch (answer.action) {
+            case "View All Employees":
+                employees();
+                break;
+            
+            case "View All Employees By Department":
+                employeesByDept();
+                break;
+
+            case "View All Employees By Manager":
+                employeesByMang();
+                break;
+
+            case "Add Employee":
+                addEmployees();
+                break;
+
+            case "Remove Employee":
+                removeEmployees();
+                break;
+
+            case "Update Employee Role":
+                updateRole();
+                break;
+            
+            case "Update Employee Manager":
+                updateManager();
+                break;
+            }
+        });
+
     }
-]);
+
+    function employees(){
+       
+    }
+
+    function employeesByDept(){
+
+    }
+
+    function employeesByMang(){
+
+    }
+
+    function addEmployees(){
+        inquirer
+            .prompt(
+                {
+                type: "input",
+                name: "firstName",
+                message: "What is the employees first name?"
+                },
+                {
+                type: "input",
+                name: "lastName",
+                message: "What is the employees last name?"
+                },
+
+            )
+
+    }
+
+    function removeEmployees(){
+
+    }
+
+    function updateRole(){
+
+    }
+
+    function updateManager(){
+
+    }
+
+
+//     {
+//         type: "list",
+//         name: "remove",
+//         message: "Who would you like to remove?",
+//         choices: [
+//             " "
+//         ]
+//     },
+//
+//
+//     {
+//         type: "list",
+//         name: "role",
+//         message: "What is the employees role?",
+//         choices: [
+//             "Sales Lead",
+//             "Salesperson",
+//             "Lead Engineer",
+//             "Software Engineer",
+//             "Account Manager",
+//             "Accountant",
+//             "Legal Team Lead"
+//         ]
+//     },
+//     {
+//         type: "list",
+//         name: "manager",
+//         message: "Who is the employees manager?",
+//         choices: [
+//             "None"
+//         ]
+//     }
+// ];
+
+// }
