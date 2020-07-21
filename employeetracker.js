@@ -93,12 +93,45 @@ inquirer
                 name: "lastName",
                 message: "What is the employees last name?"
                 },
-
-            )
+                {
+                type: "list",
+                name: "role",
+                message: "What is the employees role?",
+                choices: [
+                    "Sales Lead",
+                    "Salesperson",
+                    "Lead Engineer",
+                    "Software Engineer",
+                    "Account Manager",
+                    "Accountant",
+                    "Legal Team Lead"
+                        ]
+                },
+                {
+                    type: "list",
+                    name: "manager",
+                    message: "Who is the employees manager?",
+                    choices: [
+                        "None"
+                    ]
+                }).then(function(){
+                    
+                })
 
     }
 
     function removeEmployees(){
+        inquirer
+            .prompt([
+                {
+                    type: "list",
+                    name: "remove",
+                    message: "Who would you like to remove?",
+                    choices: [
+                        // insert all employees
+                    ]
+                }
+            ])
 
     }
 
@@ -111,38 +144,4 @@ inquirer
     }
 
 
-//     {
-//         type: "list",
-//         name: "remove",
-//         message: "Who would you like to remove?",
-//         choices: [
-//             " "
-//         ]
-//     },
-//
-//
-//     {
-//         type: "list",
-//         name: "role",
-//         message: "What is the employees role?",
-//         choices: [
-//             "Sales Lead",
-//             "Salesperson",
-//             "Lead Engineer",
-//             "Software Engineer",
-//             "Account Manager",
-//             "Accountant",
-//             "Legal Team Lead"
-//         ]
-//     },
-//     {
-//         type: "list",
-//         name: "manager",
-//         message: "Who is the employees manager?",
-//         choices: [
-//             "None"
-//         ]
-//     }
-// ];
 
-// }
