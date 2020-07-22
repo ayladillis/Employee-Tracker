@@ -1,7 +1,10 @@
 // dependencies
 var mysql = require("mysql");
 var inquirer = require("inquirer");
-var cTable = require("console.table")
+
+require("console.table");
+var cTable = console.table;
+
 const util = require("util");
 const { connect } = require("http2");
 
@@ -158,6 +161,9 @@ function addRole() {
     // ask for the title, salary, department
     // departments => retrieve departments from the database, list those as options
     // saving the role into the database
+    connection.queryPromise('SELECT * FROM department')
+    .then(function(department){
+
     inquirer.prompt([
         {
         name: 'title',
@@ -169,10 +175,9 @@ function addRole() {
         message: 'What is the salary',
         type: 'input'
         }
-    ])
+    ]);
+});
 }
-
-
 
 
 
@@ -180,15 +185,29 @@ function viewDepartments() {
     // retrieving the departments from the database
     // display the departments on the page
     // use console.table
-    connection.queryPromise('show index from [department]').then(function(departments) {
-        cTable(departments)
+    connection.queryPromise('SELECT * FROM department').then(function(departments) {
+        cTable(departments.map(function(value){
+            return {
+                id: value.id,
+                employeeName: value.employeeName
+            }
+        })
+        );
+        //loop through, construct array of objects, console table that array
+        // console.log(departments)
     });
     // cTable(departments)
 }
 
 function viewRole() {
-    connection.queryPromise('QUERY_HERE').then(function(role) {
-        cTable(role)
+    connection.queryPromise('SELECT * FROM roles').then(function(role) {
+       cTable(role.map(function(value){
+           return {
+
+           }
+       })
+       );
+       console.log(role)
     });
 }
 
