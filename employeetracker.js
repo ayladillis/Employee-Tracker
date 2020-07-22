@@ -141,13 +141,13 @@ function addDepartment() {
     // ask for the name of the department
     // save the department into the database
         inquirer.prompt({
-               name: 'dept_name',
+               name: 'employeeName',
                message: 'Enter the department name: ',
                type: 'input',
             
             })
             .then(function(answer) {
-            connection.queryPromise('INSERT INTO department (dept_name) VALUES (?)', [answer.dept_name]);
+            connection.queryPromise('INSERT INTO department (employeeName) VALUES (?)', [answer.employeeName]);
             runQuestions();
         });
     }
@@ -158,13 +158,14 @@ function addRole() {
     // ask for the title, salary, department
     // departments => retrieve departments from the database, list those as options
     // saving the role into the database
+
 }
 
 function viewDepartments() {
     // retrieving the departments from the database
     // display the departments on the page
     // use console.table
-    connection.queryPromise('QUERY_HERE').then(function(departments) {
+    connection.queryPromise('show index from [department]').then(function(departments) {
         cTable(departments)
     });
     // cTable(departments)

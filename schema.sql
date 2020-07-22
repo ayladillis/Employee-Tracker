@@ -27,7 +27,7 @@ PRIMARY KEY (id)
 CREATE TABLE department (
   -- Code Starts Here
 id INT NOT NULL AUTO_INCREMENT, 
-dept_name VARCHAR(10),
+employeeName VARCHAR(10),
 PRIMARY KEY (id)
   -- Code Ends Here
 );
