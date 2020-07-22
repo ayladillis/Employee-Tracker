@@ -30,16 +30,23 @@ inquirer
         choices: [
             'Add Department',
             "Add Employee",
+            "Add Role",
+            "View Department",
+            "View Role",
+            "View Employee",
+            "Update Employee Role"
         ]
     })
         .then(function(answer) {
             switch (answer.action) {
             case "Add Department":
                 // call the add department function
+                addDepartment();
                 break;
             
             case "Add Role":
                 // call the add role function
+                addRole();
                 break;
 
             case "Add Employee":
@@ -48,11 +55,16 @@ inquirer
 
             case 'View Department': 
                 // call the view department function
+                viewDepartments();
                 break;
+
             case 'View Role': 
                 // call the view role function
+                viewRole();
                 break;
+
             case 'View Employee':
+                viewEmployee();
                 break;
 
             case "Update Employee Role":
@@ -86,7 +98,7 @@ inquirer
                         },
                         {
                             name: 'last_name',
-                            message: "Enter the last name",
+                            message: "Enter the last name: ",
                             type: "input",
                         },
                         //ask the first_name, last_name
@@ -120,7 +132,6 @@ inquirer
                         runQuestions();
                     });
                 });
-
             // roles from mysql
         });
     }
@@ -129,14 +140,25 @@ inquirer
 function addDepartment() {
     // ask for the name of the department
     // save the department into the database
-}
+        inquirer.prompt({
+               name: 'dept_name',
+               message: 'Enter the department name: ',
+               type: 'input',
+            
+            })
+            .then(function(answer) {
+            connection.queryPromise('INSERT INTO department (dept_name) VALUES (?)', [answer.dept_name]);
+            runQuestions();
+        });
+    }
+   
+
 
 function addRole() {
     // ask for the title, salary, department
     // departments => retrieve departments from the database, list those as options
     // saving the role into the database
 }
-
 
 function viewDepartments() {
     // retrieving the departments from the database
@@ -146,4 +168,20 @@ function viewDepartments() {
         cTable(departments)
     });
     // cTable(departments)
+}
+
+function viewRole() {
+    connection.queryPromise('QUERY_HERE').then(function(role) {
+        cTable(role)
+    });
+}
+
+function viewEmployee() {
+    connection.queryPromise('QUERY_HERE').then(function(employee) {
+        cTable(employee)
+    });
+}
+
+function updateRole() {
+
 }
