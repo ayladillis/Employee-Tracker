@@ -2,6 +2,8 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var cTable = require("console.table")
+const util = require("util");
+const { connect } = require("http2");
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -11,10 +13,11 @@ var connection = mysql.createConnection({
   database: "employeetrackerDB"
 });
 
+connection.queryPromise = util.promisify(connection.query);
+
 connection.connect(function(err) {
     if (err) throw err;
-    // console.log("connected as id " + connection.threadId);
-    // connection.end();
+    console.log("connected as id " + connection.threadId);
     runQuestions();
   });
   
@@ -22,126 +25,125 @@ function runQuestions() {
 inquirer
     .prompt ({
         type: "list",
-        name: "first",
+        name: "action",
         message: "What would you like to do?",
         choices: [
-            "View All Employees",
-            "View All Employees By Department",
-            "View All Employees By Manager",
+            'Add Department',
             "Add Employee",
-            "Remove Employee",
-            "Update Employee Role",
-            "Update Employee Manager"
         ]
     })
         .then(function(answer) {
             switch (answer.action) {
-            case "View All Employees":
-                employees();
+            case "Add Department":
+                // call the add department function
                 break;
             
-            case "View All Employees By Department":
-                employeesByDept();
-                break;
-
-            case "View All Employees By Manager":
-                employeesByMang();
+            case "Add Role":
+                // call the add role function
                 break;
 
             case "Add Employee":
                 addEmployees();
                 break;
 
-            case "Remove Employee":
-                removeEmployees();
+            case 'View Department': 
+                // call the view department function
+                break;
+            case 'View Role': 
+                // call the view role function
+                break;
+            case 'View Employee':
                 break;
 
             case "Update Employee Role":
                 updateRole();
                 break;
-            
-            case "Update Employee Manager":
-                updateManager();
-                break;
+
             }
         });
 
     }
 
-    function employees(){
-       
-    }
-
-    function employeesByDept(){
-
-    }
-
-    function employeesByMang(){
-
-    }
-
     function addEmployees(){
-        inquirer
-            .prompt(
-                {
-                type: "input",
-                name: "firstName",
-                message: "What is the employees first name?"
-                },
-                {
-                type: "input",
-                name: "lastName",
-                message: "What is the employees last name?"
-                },
-                {
-                type: "list",
-                name: "role",
-                message: "What is the employees role?",
-                choices: [
-                    "Sales Lead",
-                    "Salesperson",
-                    "Lead Engineer",
-                    "Software Engineer",
-                    "Account Manager",
-                    "Accountant",
-                    "Legal Team Lead"
-                        ]
-                },
-                {
-                    type: "list",
-                    name: "manager",
-                    message: "Who is the employees manager?",
-                    choices: [
-                        "None"
-                    ]
-                }).then(function(){
-                    
-                })
+        connection.queryPromise('SELECT * FROM roles')
+        .then(function(roles){
+            connection.queryPromise('SELECT * FROM employee')
+                .then(function(employees) {
+                    employees = employees.map(function (employee) {
+                        return {
+                            value: employee.id,
+                            name: employee.first_name + ' ' + employee.last_name,
 
+                        }
+                    })
+                    employees.push({ name: 'None', value: 'none' });
+
+                    inquirer.prompt([
+                        {
+                            name: 'first_name',
+                            message: 'Enter the first name: ',
+                            type: 'input',
+                        },
+                        {
+                            name: 'last_name',
+                            message: "Enter the last name",
+                            type: "input",
+                        },
+                        //ask the first_name, last_name
+                        {
+                            message: "Select the role for the employee",
+                            name: "role_id",
+                            type: "list",
+                            choices: roles.map(function(role){
+                                return {
+                                    name: role.title,
+                                    value: role.id,
+                                }
+                            })
+                        },
+                        {
+                            message: "Select the manager: ",
+                            name: "manager_id",
+                            type: "list",
+                            choices: employees
+                        }
+                    ]).then(function(answers){
+                        console.log(answers);
+                        if (answers.manager_id === 'none') {
+                            //run the query without manager_id here
+                            connection.queryPromise('INSERT INTO employee (first_name, last_name, role_id) VALUES ( ?, ?, ?)', [answers.first_name, answers.last_name, answers.role_id]);
+
+                        }else{
+                            connection.queryPromise('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ( ?, ?, ?, ?)', [answers.first_name, answers.last_name, answers.role_id, answers.manager_id]);
+                            // run the query with the manager_id here
+                        }
+                        runQuestions();
+                    });
+                });
+
+            // roles from mysql
+        });
     }
 
-    function removeEmployees(){
-        inquirer
-            .prompt([
-                {
-                    type: "list",
-                    name: "remove",
-                    message: "Who would you like to remove?",
-                    choices: [
-                        // insert all employees
-                    ]
-                }
-            ])
 
-    }
+function addDepartment() {
+    // ask for the name of the department
+    // save the department into the database
+}
 
-    function updateRole(){
-
-    }
-
-    function updateManager(){
-
-    }
+function addRole() {
+    // ask for the title, salary, department
+    // departments => retrieve departments from the database, list those as options
+    // saving the role into the database
+}
 
 
-
+function viewDepartments() {
+    // retrieving the departments from the database
+    // display the departments on the page
+    // use console.table
+    connection.queryPromise('QUERY_HERE').then(function(departments) {
+        cTable(departments)
+    });
+    // cTable(departments)
+}
