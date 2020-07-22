@@ -158,8 +158,23 @@ function addRole() {
     // ask for the title, salary, department
     // departments => retrieve departments from the database, list those as options
     // saving the role into the database
-
+    inquirer.prompt([
+        {
+        name: 'title',
+        message: 'What is the role title?',
+        type: 'input',
+        },
+        {
+        name: 'salary',
+        message: 'What is the salary',
+        type: 'input'
+        }
+    ])
 }
+
+
+
+
 
 function viewDepartments() {
     // retrieving the departments from the database
