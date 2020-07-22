@@ -195,6 +195,7 @@ function viewDepartments() {
         );
         //loop through, construct array of objects, console table that array
         // console.log(departments)
+        runQuestions();
     });
     // cTable(departments)
 }
@@ -203,17 +204,32 @@ function viewRole() {
     connection.queryPromise('SELECT * FROM roles').then(function(role) {
        cTable(role.map(function(value){
            return {
-
+            id: value.id,
+            title: value.title,
+            salary: value.salary,
+            department_id: value.department_id
            }
        })
        );
-       console.log(role)
+    //    console.log(role);
+    runQuestions();
     });
 }
 
 function viewEmployee() {
-    connection.queryPromise('QUERY_HERE').then(function(employee) {
-        cTable(employee)
+    connection.queryPromise('SELECT * FROM employee').then(function(employee) {
+       cTable(employee.map(function(value){
+            return{
+                id: value.id,
+                first_name: value.first_name,
+                last_name: value.last_name,
+                role_id: value.role_id,
+                manager_id: value.manager_id
+            }
+        })
+        );
+        // console.log(employee);
+        runQuestions();
     });
 }
 
