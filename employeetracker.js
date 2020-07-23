@@ -275,8 +275,17 @@ function updateRole() {
                 {
                     name: 'department_id',
                     message: 'Update role id: ',
-                    type: 'input'
+                    type: 'list',
+                    choices: roles.map(function(role){
+                        return {
+                            name: role.department_id,
+                            value: role.id
+                        }
+                    })
                 }
-            ])
-        })
+            ]).then(function(answer){
+                connection.queryPromise('INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)', [answer.title, answer.salary, answer.employeeName]);
+                runQuestions();
+            })
+        });
 }
