@@ -247,5 +247,36 @@ function viewEmployee() {
 }
 
 function updateRole() {
-
+    connection.queryPromise('SELECT * FROM roles')
+        .then(function(roles){
+            
+            inquirer.prompt([
+                {
+                name: "update_role",
+                message: 'What role would you like to change?',
+                type: 'list',
+                choices: roles.map(function(role){
+                    return{
+                    name: role.title,
+                    value: role.id
+                    }
+                })
+                },
+                {
+                   name: 'title',
+                   message: 'Update role title: ',
+                   type: 'input'
+                },
+                {
+                    name: 'salary',
+                    message: 'Update role salary: ',
+                    type: 'input'
+                },
+                {
+                    name: 'department_id',
+                    message: 'Update role id: ',
+                    type: 'input'
+                }
+            ])
+        })
 }
