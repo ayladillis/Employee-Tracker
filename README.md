@@ -39,6 +39,10 @@ Then open in your preferred text editor:
 ## Technology
 * [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScrip)
 * [Node.js](https://node.js.org/)
+* [Inquirer](https://www.npmjs.com/package/inquirer)
+* [MySQL](https://www.mysql.com/)
+* [Console.table](https://developer.mozilla.org/en-US/docs/Web/API/Console/table)
+* [Util](https://nodejs.org/api/util.html)
 
 
 ## Authors 

@@ -104,7 +104,6 @@ inquirer
                             message: "Enter the last name: ",
                             type: "input",
                         },
-                        //ask the first_name, last_name
                         {
                             message: "Select the role for the employee",
                             name: "role_id",
@@ -166,16 +165,30 @@ function addRole() {
 
     inquirer.prompt([
         {
-        name: 'title',
-        message: 'What is the role title?',
-        type: 'input',
+            name: 'title',
+            message: 'What is the role title?',
+            type: 'input',
         },
         {
-        name: 'salary',
-        message: 'What is the salary',
-        type: 'input'
+            name: 'salary',
+            message: 'What is the salary',
+            type: 'input'
+        },
+        {
+            name: 'employeeName',
+            message: 'Select the department for the role',
+            type: "list",
+            choices: department.map(function(departments){
+                return {
+                    name: departments.employeeName,
+                    value: departments.id
+                }
+            })
         }
-    ]);
+    ]).then(function(answer){
+        connection.queryPromise('INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)', [answer.title, answer.salary, answer.employeeName]);
+        runQuestions();
+    })
 });
 }
 

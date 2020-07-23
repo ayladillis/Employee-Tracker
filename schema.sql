@@ -27,7 +27,7 @@ PRIMARY KEY (id)
 CREATE TABLE department (
   -- Code Starts Here
 id INT NOT NULL AUTO_INCREMENT, 
-employeeName VARCHAR(10),
+employeeName VARCHAR(100),
 PRIMARY KEY (id)
   -- Code Ends Here
 );
@@ -39,6 +39,6 @@ INSERT INTO roles (title, salary, department_id)
 VALUES ('Marketing Manager', 50043.00, 40);
 
 INSERT INTO department (employeeName)
-VALUES ('Susan');
+VALUES ('HR');
 
 
