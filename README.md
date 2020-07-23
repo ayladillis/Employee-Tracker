@@ -1,6 +1,6 @@
 # Employee-Tracker
 
-![gif demo]()
+![gif demo](https://media.giphy.com/media/kcfU4QyKTF1semBQFW/giphy.gif)
 
 ## Table of Content
 - Objective
@@ -31,9 +31,9 @@ Then open in your preferred text editor:
 - [visual studio code](https://code.visualstudio.com/) 
 
 ## Code Highlight
+Here I used 'connection.queryPromise' to promisify and pull information from the roles and employee table.
 
-
-![code screenshot]()
+![code screenshot](photo.png)
 
 
 ## Technology
